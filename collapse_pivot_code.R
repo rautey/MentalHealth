@@ -15,8 +15,7 @@ str(dsmf)
 
 #give each category its own row 
 splitCat <- strsplit(dsmf$Category, split = ",")
-repCatDsm <- data.frame(Codes = rep(dsmf$Codes, sapply(splitCat, length)), Chapter = rep(dsmf$Chapter, sapply(splitCat, length)), Symptoms = rep(dsmf$Symptoms, sapply(splitCat, length)), Category = unlist(splitCat))
-head(repCatDsm)
+clhead(repCatDsm)
 
 #give each code their own row
 splitCodes <- strsplit(dsmf$Codes, split = ",")
@@ -114,10 +113,12 @@ pdsm <- pivot.f
 pdsm$Categories<-NULL
 pdsm$Symptoms<-NULL
 
+#################################### merge chapter + codes and export ###################################################
+
+pdsm<- mutate(pdsm, Code = paste(pdsm$Code,pdsm$Chapter, sep='_'))
+
+
 #export the pivoted file 
 write.csv(pdsm, "pivoted_DSM_data.csv" )
-
-
-
 
 
